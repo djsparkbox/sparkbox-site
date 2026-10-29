@@ -131,12 +131,10 @@ body:not(.view-brand) #brand-assets{display:none}
 .names .big{padding:30px 24px 22px;display:flex;flex-direction:column;align-items:center;font-weight:900;font-size:clamp(46px,6vw,74px);line-height:1;letter-spacing:.01em;text-align:center}
 .names .big .g{color:var(--gold)}
 .names .more{display:flex;flex-wrap:wrap;justify-content:center;gap:2px 18px;padding:20px 0 26px;font-weight:700;font-size:clamp(22px,2.2vw,28px);letter-spacing:.04em;color:var(--ink-2);border-top:1px solid var(--line);margin-inline:24px}
-.names .djcity{display:flex;flex-direction:column;font-weight:700;font-size:clamp(22px,2.2vw,28px);letter-spacing:.06em;text-transform:uppercase}
-.names .djcity > *{display:flex;align-items:center;justify-content:center;text-align:center;padding:16px 16px 18px}
-.names .djcity > * + *{border-top:1px solid var(--line)}
-.dj-watch{background:none;border:0;margin:0;font:inherit;letter-spacing:inherit;text-transform:inherit;color:var(--ink);cursor:pointer;text-decoration:underline;text-decoration-color:var(--gold);text-decoration-thickness:2px;text-underline-offset:6px;transition:color .2s ease}
-.dj-watch:hover{color:var(--gold)}
-.dj-watch:focus-visible{outline:2px solid var(--gold);outline-offset:-6px}
+.strip.dj-watch{display:flex;align-items:center;justify-content:center;gap:14px;width:100%;border:0;margin:0;font-family:var(--font);cursor:pointer;transition:background .2s ease}
+.strip.dj-watch svg{width:.5em;height:.6em;fill:currentColor;flex:none}
+.strip.dj-watch:hover{background:var(--gold)}
+.strip.dj-watch:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
 dialog.vbox{padding:0;border:0;background:transparent;color:var(--ink);width:min(1120px,calc(100vw - 32px));max-width:none;max-height:none;overflow:visible}
 dialog.vbox::backdrop{background:rgba(6,6,6,.94)}
 .vbox .vframe{position:relative;background:#000;border:1px solid var(--line)}
@@ -558,8 +556,7 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
           <span class="g">DIPLO</span>
         </div>
         <div class="more"><span>STEVE AOKI</span><span>CARNAGE</span><span>AC SLATER</span><span>GTA</span><span>CHRIS LAKE</span><span>VALENTINO KHAN</span><span>WHAT SO NOT</span><span>OOKAY</span><span>BIG GIGANTIC</span></div>
-        <div class="strip">Featured on DJ City</div>
-        <div class="djcity"><button class="dj-watch" type="button" aria-haspopup="dialog" aria-controls="vbox">Bedroom Sessions</button><span>DJ City Podcast</span></div>
+        <button class="strip dj-watch" type="button" aria-haspopup="dialog" aria-controls="vbox" aria-label="Featured on DJ City: watch the video"><span>Featured on DJ City</span><svg viewBox="0 0 10 12" aria-hidden="true"><polygon points="0,0 10,6 0,12"/></svg></button>
       </div>
       <div>
         <div class="split">
@@ -960,8 +957,8 @@ document.querySelectorAll('[data-copy]').forEach(function(btn){
 });
 </script>
 
-<dialog class="vbox" id="vbox" aria-label="Bedroom Sessions on DJ City, video">
-  <div class="vhead"><div class="vt">Bedroom Sessions <b>/ DJ City</b></div><button class="vclose" type="button" aria-label="Close video">&#10005;</button></div>
+<dialog class="vbox" id="vbox" aria-label="Featured on DJ City, video">
+  <div class="vhead"><div class="vt">Featured on <b>DJ City</b></div><button class="vclose" type="button" aria-label="Close video">&#10005;</button></div>
   <div class="vframe"><video id="vbox-video" controls playsinline preload="none" poster="vid/bedroom-sessions.jpg"></video></div>
 </dialog>
 <script>
