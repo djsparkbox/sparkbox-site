@@ -233,6 +233,52 @@ body:not(.view-brand) #brand-assets{display:none}
 .typecard a{font-weight:800;font-size:18px;color:var(--gold)}
 .dl-note{margin:16px 0 0;font-size:19px;color:var(--muted)}
 
+/* Mix player */
+.mx-headrow{display:flex;align-items:flex-end;justify-content:space-between;gap:12px 32px;flex-wrap:wrap;margin-bottom:24px}
+.mx-link{font-weight:700;font-size:20px;color:var(--muted)}
+.mx-link:hover{color:var(--gold)}
+.deck{display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1.25fr);gap:clamp(20px,3.5vw,48px);align-items:center;background:var(--surface);border:1px solid var(--line);padding:clamp(16px,3vw,36px)}
+.deck-art{position:relative;aspect-ratio:1;background:#000;overflow:hidden}
+.deck-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:contrast(1.05) brightness(.82);transition:transform .6s ease}
+.deck.is-playing .deck-art img{transform:scale(1.04)}
+.deck-art .box{position:absolute;left:6%;top:6%;width:88%;height:88%;overflow:visible}
+.deck-art .box polygon{fill:none;stroke:var(--ink);stroke-width:3px;vector-effect:non-scaling-stroke}
+.deck-main{min-width:0;display:flex;flex-direction:column}
+.mx-count{font-weight:800;font-size:20px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.mx-title{margin:8px 0 8px;font-weight:900;font-size:clamp(34px,4.4vw,64px);line-height:.92;letter-spacing:.01em;text-transform:uppercase;text-wrap:balance;overflow-wrap:anywhere}
+.mx-meta{font-size:20px;color:var(--muted)}
+.mx-controls{display:flex;align-items:center;gap:14px 18px;flex-wrap:wrap;margin-top:24px}
+.spark-btn{display:inline-flex;align-items:center;gap:10px;background:var(--gold);color:var(--on-gold);border:0;font-family:var(--font);font-weight:800;font-size:22px;letter-spacing:.08em;text-transform:uppercase;padding:10px 24px 10px 18px;min-height:52px;cursor:pointer;transition:background .2s ease}
+.spark-btn:hover{background:var(--ink)}
+.spark-btn svg{width:14px;height:auto;fill:var(--on-gold)}
+.spark-btn .i-bolt{aspect-ratio:94/190}
+.spark-btn .i-pause{width:16px;aspect-ratio:1;display:none}
+.deck.is-playing .spark-btn .i-bolt{display:none}
+.deck.is-playing .spark-btn .i-pause{display:block}
+.mx-time{font-weight:700;font-size:20px;font-variant-numeric:tabular-nums;color:var(--ink-2)}
+.mx-bar{position:relative;height:36px;margin-top:18px;cursor:pointer;touch-action:none}
+.mx-bar::before{content:"";position:absolute;left:0;right:0;top:50%;height:3px;transform:translateY(-50%);background:rgba(242,239,232,.18)}
+.mx-fill{position:absolute;left:0;top:50%;height:3px;transform:translateY(-50%);width:0;background:var(--gold)}
+.mx-head{position:absolute;top:50%;left:0;width:13px;height:auto;aspect-ratio:94/190;transform:translate(-50%,-50%);fill:var(--gold);filter:drop-shadow(0 0 6px rgba(242,179,61,.5))}
+.mx-bar:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
+.mx-fallback{margin-top:16px}
+.mx-fallback p{margin:0 0 10px;font-size:19px;color:var(--muted)}
+.mx-fallback iframe{position:static!important;width:100%!important;height:166px!important;left:auto!important}
+.sc-frame{position:absolute;left:-10000px;top:0;width:320px;height:166px;border:0}
+.mx-list{list-style:none;margin:0 0 0;padding:0;border:1px solid var(--line);border-top:0}
+.mx-list button{width:100%;display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:16px;align-items:center;padding:16px 20px;background:transparent;border:0;border-top:1px solid var(--line);color:var(--ink);font-family:var(--font);text-align:left;cursor:pointer;min-height:64px}
+.mx-list li:first-child button{border-top:0}
+.mx-list button:hover{background:rgba(242,239,232,.04)}
+.mx-list .n{font-weight:900;font-size:26px;color:var(--faint)}
+.mx-list .t{font-weight:800;font-size:clamp(20px,2vw,26px);line-height:1.05;text-transform:uppercase;overflow-wrap:anywhere}
+.mx-list .d{font-weight:600;font-size:19px;color:var(--muted);font-variant-numeric:tabular-nums}
+.mx-list li.on .n,.mx-list li.on .t{color:var(--gold)}
+@media (max-width:760px){
+  .deck{grid-template-columns:minmax(0,1fr)}
+  .deck-art{max-width:420px}
+  .mx-list button{grid-template-columns:44px minmax(0,1fr) auto;padding:14px 14px}
+}
+
 /* Brand guidelines */
 .bg-nav{display:flex;flex-wrap:wrap;gap:6px 22px;padding-block:16px;border-block:1px solid var(--line);margin-bottom:8px}
 .bg-nav a{font-weight:700;font-size:19px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
@@ -405,6 +451,7 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
 <header class="wrap top">
   <a class="home" href="#top" aria-label="DJ Sparkbox, back to top"><svg width="44" height="44" aria-hidden="true"><use href="#spark"/></svg></a>
   <nav class="nav" id="site-nav" aria-label="Sections">
+    <a href="#mixes">Mixes</a>
     <a href="#bio">Bio</a>
     <a href="#stage">Stage</a>
     <a href="#live">Live</a>
@@ -428,7 +475,7 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
         </div>
       </div>
       <div class="hero-ctas">
-        <a class="btn btn-gold" href="#outside">Watch Outside the Box</a>
+        <a class="btn btn-gold" href="#mixes">Listen to the mixes</a>
         <button class="btn" type="button" data-copy="booksparkbox@gmail.com" data-target="email-hero">Copy email</button>
       </div>
     </div>
@@ -447,6 +494,42 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
         <div class="fade"></div>
       </div>
     </div>
+  </section>
+
+  <section id="mixes" class="wrap section" style="padding-bottom:0">
+    <div class="mx-headrow">
+      <h2>Mixes</h2>
+      <a class="mx-link" id="mx-link" href="https://on.soundcloud.com/LrEM8peAvaOyWM8o38">Listen on SoundCloud &#8599;</a>
+    </div>
+    <div class="deck" id="deck">
+      <div class="deck-art">
+        <img id="mx-art" src="img/club-pink.jpg" alt="">
+        <svg class="box" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polygon points="1,3 99,0 100,100 0,98"/></svg>
+      </div>
+      <div class="deck-main">
+        <div class="mx-count" id="mx-count">Mix 01</div>
+        <h3 class="mx-title" id="mx-title">Loading the mix</h3>
+        <div class="mx-meta" id="mx-meta">DJ Sparkbox</div>
+        <div class="mx-controls">
+          <button class="spark-btn" id="mx-play" type="button" aria-label="Play mix">
+            <svg class="i-bolt" viewBox="60 6 94 190" aria-hidden="true"><polygon points="114,14 146,14 116,82 142,82 80,188 96,108 68,108"/></svg>
+            <svg class="i-pause" viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="2" width="5" height="16"/><rect x="12" y="2" width="5" height="16"/></svg>
+            <span id="mx-play-label">Spark it</span>
+          </button>
+          <span class="mx-time" id="mx-time">0:00 / 0:00</span>
+        </div>
+        <div class="mx-bar" id="mx-bar" role="slider" tabindex="0" aria-label="Mix position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="mx-fill" id="mx-fill"></div>
+          <svg class="mx-head" id="mx-head" viewBox="60 6 94 190" aria-hidden="true"><polygon points="114,14 146,14 116,82 142,82 80,188 96,108 68,108"/></svg>
+        </div>
+        <div class="mx-fallback" id="mx-fallback" hidden>
+          <p>Tap play on the SoundCloud player below to start the mix.</p>
+          <div id="mx-fallback-slot"></div>
+        </div>
+      </div>
+    </div>
+    <ol class="mx-list" id="mx-list"></ol>
+    <div id="sc-holder" aria-hidden="true"></div>
   </section>
 
   <section id="bio" class="wrap section">
@@ -741,6 +824,129 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
   </div>
 </footer>
 
+<script src="https://w.soundcloud.com/player/api.js"></script>
+<script>
+/* Mix player. To add or reorder mixes, edit this list (SoundCloud share links, in display order). */
+var SPARKBOX_MIXES = [
+  'https://on.soundcloud.com/LrEM8peAvaOyWM8o38',
+  'https://on.soundcloud.com/mox5m8YLUmCVTeS62U'
+];
+(function(){
+  var deck = document.getElementById('deck');
+  if (!deck) return;
+  var $ = function(id){ return document.getElementById(id); };
+  var list = $('mx-list'), holder = $('sc-holder');
+  var cur = 0, playing = false, fbTimer = null, widgets = [], sounds = [], frames = [];
+  function fmt(ms){ ms = Math.max(0, Math.round((ms || 0) / 1000)); var h = Math.floor(ms / 3600), m = Math.floor(ms % 3600 / 60), s = ms % 60; return (h ? h + ':' + String(m).padStart(2, '0') : m) + ':' + String(s).padStart(2, '0'); }
+  function pad(n){ return String(n).padStart(2, '0'); }
+  function art(s){ return s && (s.artwork_url || (s.user && s.user.avatar_url)) ? (s.artwork_url || s.user.avatar_url).replace('-large', '-t500x500') : null; }
+  function renderList(){
+    list.innerHTML = '';
+    SPARKBOX_MIXES.forEach(function(url, i){
+      var li = document.createElement('li'); if (i === cur) li.className = 'on';
+      var b = document.createElement('button'); b.type = 'button';
+      var s = sounds[i];
+      var n = document.createElement('span'); n.className = 'n'; n.textContent = pad(i + 1);
+      var t = document.createElement('span'); t.className = 't'; t.textContent = s ? s.title : 'Mix ' + pad(i + 1);
+      var d = document.createElement('span'); d.className = 'd'; d.textContent = s ? fmt(s.duration) : '';
+      b.appendChild(n); b.appendChild(t); b.appendChild(d);
+      b.setAttribute('aria-label', 'Play ' + (s ? s.title : 'mix ' + (i + 1)));
+      b.addEventListener('click', function(){ select(i, true); });
+      li.appendChild(b); list.appendChild(li);
+    });
+  }
+  function renderDeck(){
+    var s = sounds[cur];
+    $('mx-count').textContent = 'Mix ' + pad(cur + 1) + ' of ' + pad(SPARKBOX_MIXES.length);
+    $('mx-title').textContent = s ? s.title : 'Loading the mix';
+    var meta = 'DJ Sparkbox';
+    if (s) { meta = fmt(s.duration); if (s.created_at) { var dt = new Date(s.created_at); if (!isNaN(dt)) meta += ' · ' + dt.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }); } }
+    $('mx-meta').textContent = meta;
+    var a = art(s); if (a) $('mx-art').src = a;
+    $('mx-link').href = (s && s.permalink_url) || SPARKBOX_MIXES[cur];
+    $('mx-time').textContent = '0:00 / ' + (s ? fmt(s.duration) : '0:00');
+    setProgress(0);
+  }
+  function setProgress(rel){
+    rel = Math.max(0, Math.min(1, rel || 0));
+    $('mx-fill').style.width = (rel * 100) + '%';
+    $('mx-head').style.left = (rel * 100) + '%';
+    $('mx-bar').setAttribute('aria-valuenow', Math.round(rel * 100));
+  }
+  function setPlaying(p){
+    playing = p; deck.classList.toggle('is-playing', p);
+    $('mx-play-label').textContent = p ? 'Pause' : 'Spark it';
+    $('mx-play').setAttribute('aria-label', p ? 'Pause mix' : 'Play mix');
+  }
+  function showFallback(){
+    var f = frames[cur]; if (!f) return;
+    $('mx-fallback-slot').appendChild(f);
+    $('mx-fallback').hidden = false;
+  }
+  function hideFallback(){
+    $('mx-fallback').hidden = true;
+    frames.forEach(function(f){ if (f && f.parentNode !== holder) holder.appendChild(f); });
+  }
+  function play(){
+    var w = widgets[cur]; if (!w) return;
+    w.play();
+    clearTimeout(fbTimer);
+    fbTimer = setTimeout(function(){ if (!playing) showFallback(); }, 2500);
+  }
+  function pause(){ var w = widgets[cur]; if (w) w.pause(); }
+  function select(i, autoplay){
+    if (i !== cur) { pause(); setPlaying(false); hideFallback(); cur = i; renderList(); renderDeck(); }
+    if (autoplay) play();
+  }
+  window.sparkboxPauseMix = function(){ widgets.forEach(function(w){ if (w) w.pause(); }); };
+  $('mx-play').addEventListener('click', function(){ playing ? pause() : play(); });
+  function seekFromEvent(e){
+    var s = sounds[cur]; if (!s || !widgets[cur]) return;
+    var r = $('mx-bar').getBoundingClientRect();
+    var x = (e.touches ? e.touches[0].clientX : e.clientX) - r.left;
+    var rel = Math.max(0, Math.min(1, x / r.width));
+    widgets[cur].seekTo(rel * s.duration); setProgress(rel);
+  }
+  $('mx-bar').addEventListener('click', seekFromEvent);
+  $('mx-bar').addEventListener('keydown', function(e){
+    var s = sounds[cur], w = widgets[cur]; if (!s || !w) return;
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    e.preventDefault();
+    w.getPosition(function(pos){ var np = Math.max(0, Math.min(s.duration, pos + (e.key === 'ArrowRight' ? 15000 : -15000))); w.seekTo(np); setProgress(np / s.duration); });
+  });
+  renderList(); renderDeck();
+  if (!window.SC || !SC.Widget) { $('mx-play').addEventListener('click', function(){ location.href = SPARKBOX_MIXES[cur]; }); return; }
+  setTimeout(function(){
+    if (sounds.some(Boolean)) return;
+    $('mx-title').textContent = 'Play it on SoundCloud';
+    $('mx-play').onclick = function(e){ e.stopImmediatePropagation(); window.open(SPARKBOX_MIXES[cur], '_blank', 'noopener'); };
+  }, 9000);
+  var E = SC.Widget.Events;
+  SPARKBOX_MIXES.forEach(function(url, i){
+    var f = document.createElement('iframe');
+    f.className = 'sc-frame'; f.allow = 'autoplay'; f.title = 'SoundCloud player, mix ' + (i + 1);
+    f.src = 'https://w.soundcloud.com/player/?url=' + encodeURIComponent(url) + '&auto_play=false&visual=false&show_artwork=true&color=%23f2b33d&hide_related=true&show_comments=false&show_reposts=false&show_teaser=false&buying=false&sharing=false&download=false';
+    holder.appendChild(f); frames[i] = f;
+    var w = SC.Widget(f); widgets[i] = w;
+    w.bind(E.READY, function(){
+      w.getCurrentSound(function(s){ if (!s) return; sounds[i] = s; renderList(); if (i === cur) renderDeck(); });
+    });
+    w.bind(E.PLAY, function(){
+      if (i !== cur) { w.pause(); return; }
+      clearTimeout(fbTimer); setPlaying(true);
+      widgets.forEach(function(o, j){ if (o && j !== i) o.pause(); });
+      document.querySelectorAll('.clip video').forEach(function(v){ v.pause(); });
+    });
+    w.bind(E.PAUSE, function(){ if (i === cur) setPlaying(false); });
+    w.bind(E.FINISH, function(){ if (i !== cur) return; setPlaying(false); if (i + 1 < SPARKBOX_MIXES.length) select(i + 1, true); });
+    w.bind(E.PLAY_PROGRESS, function(e){
+      if (i !== cur) return;
+      var s = sounds[i]; setProgress(e.relativePosition);
+      $('mx-time').textContent = fmt(e.currentPosition) + ' / ' + fmt(s ? s.duration : 0);
+    });
+  });
+})();
+</script>
 <script>
 (function(){
   document.querySelectorAll('.clip .spark').forEach(function(btn){
@@ -758,6 +964,7 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
       v.setAttribute('aria-label', (btn.getAttribute('aria-label') || '').replace('Spark it: ', ''));
       v.addEventListener('play', function(){
         document.querySelectorAll('.clip video').forEach(function(o){ if (o !== v) o.pause(); });
+        if (window.sparkboxPauseMix) window.sparkboxPauseMix();
       });
       fig.appendChild(v);
       var poster = fig.querySelector('.poster'); if (poster) poster.remove();
