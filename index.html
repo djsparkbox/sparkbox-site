@@ -131,7 +131,26 @@ body:not(.view-brand) #brand-assets{display:none}
 .names .big{padding:30px 24px 22px;display:flex;flex-direction:column;align-items:center;font-weight:900;font-size:clamp(46px,6vw,74px);line-height:1;letter-spacing:.01em;text-align:center}
 .names .big .g{color:var(--gold)}
 .names .more{display:flex;flex-wrap:wrap;justify-content:center;gap:2px 18px;padding:20px 0 26px;font-weight:700;font-size:clamp(22px,2.2vw,28px);letter-spacing:.04em;color:var(--ink-2);border-top:1px solid var(--line);margin-inline:24px}
-.names .djcity{display:flex;justify-content:center;flex-wrap:wrap;gap:4px 30px;padding:18px 24px 22px;font-weight:700;font-size:clamp(22px,2.2vw,28px);letter-spacing:.06em}
+.dj-tile{position:relative;display:block;width:100%;height:100%;padding:0;border:0;margin:0;background:#000;cursor:pointer;overflow:hidden;font-family:var(--font)}
+.dj-tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.9);transition:transform .5s ease,filter .3s ease}
+.dj-tile .cap{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:56px 16px 16px;background:linear-gradient(to top,rgba(11,11,11,.92),rgba(11,11,11,0));text-align:left}
+.dj-tile .txt{display:flex;flex-direction:column;gap:2px;min-width:0}
+.dj-tile .k{font-weight:800;font-size:16px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.dj-tile .t{font-weight:900;font-size:clamp(28px,2.6vw,36px);line-height:.95;letter-spacing:.01em;text-transform:uppercase;color:var(--ink)}
+.dj-tile .pl{flex:none;width:42px;height:42px;display:grid;place-items:center;background:var(--gold);clip-path:polygon(1% 3%,99% 0,100% 100%,0 98%);transition:background .2s ease}
+.dj-tile .pl svg{width:12px;height:14px;margin-left:3px;fill:var(--on-gold)}
+.dj-tile:hover .pl{background:var(--ink)}
+@media (max-width:600px){.dj-tile .cap{padding:40px 10px 10px;gap:8px}.dj-tile .k{font-size:14px;letter-spacing:.08em;white-space:nowrap}.dj-tile .t{font-size:26px;white-space:nowrap}.dj-tile .pl{width:34px;height:34px}}
+.dj-tile:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+dialog.vbox{padding:0;border:0;background:transparent;color:var(--ink);width:min(1120px,calc(100vw - 32px));max-width:none;max-height:none;overflow:visible}
+dialog.vbox::backdrop{background:rgba(6,6,6,.94)}
+.vbox .vframe{position:relative;background:#000;border:1px solid var(--line)}
+.vbox video{display:block;width:100%;aspect-ratio:16/9;max-height:calc(100vh - 140px);background:#000}
+.vbox .vhead{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:12px}
+.vbox .vt{font-family:var(--font);font-weight:900;font-size:clamp(24px,3vw,36px);line-height:1;letter-spacing:.02em;text-transform:uppercase}
+.vbox .vt b{color:var(--gold);font-weight:900}
+.vbox .vclose{flex:none;width:48px;height:48px;display:grid;place-items:center;background:transparent;border:1px solid rgba(242,239,232,.4);color:var(--ink);cursor:pointer;font:700 26px/1 var(--font)}
+.vbox .vclose:hover{border-color:var(--gold);color:var(--gold)}
 .split{position:relative;aspect-ratio:1120/1000;background:var(--gold);overflow:hidden;width:100%}
 .split img{position:absolute;top:0;height:100%;object-fit:cover}
 .split .a{left:0;width:60.7%;object-position:80% center;clip-path:polygon(0 0,97% 0,80.6% 43%,92.4% 43%,69.1% 100%,0 100%);filter:contrast(1.1) brightness(1.05)}
@@ -544,8 +563,6 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
           <span class="g">DIPLO</span>
         </div>
         <div class="more"><span>STEVE AOKI</span><span>CARNAGE</span><span>AC SLATER</span><span>GTA</span><span>CHRIS LAKE</span><span>VALENTINO KHAN</span><span>WHAT SO NOT</span><span>OOKAY</span><span>BIG GIGANTIC</span></div>
-        <div class="strip">Featured on DJ City</div>
-        <div class="djcity"><span>BEDROOM SESSIONS</span><span>DJ CITY PODCAST</span></div>
       </div>
       <div>
         <div class="split">
@@ -566,7 +583,7 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
       <div class="cell g-mic"><img src="img/waka-mic.jpg" alt="Waka Flocka on the mic next to DJ Sparkbox under pink club lights"></div>
       <div class="cell g-crowd"><img src="img/live-crowd.jpg" alt="Fisheye shot from behind the decks of DJ Sparkbox playing to a crowd in bucket hats" style="object-position:center 55%"></div>
       <div class="cell g-listen"><img src="img/waka-peace.jpg" alt="Waka Flocka and DJ Sparkbox posing together in the club"></div>
-      <div class="cell g-watch"><img src="img/live-ranecap.jpg" alt="DJ Sparkbox scratching on Rane turntables in front of a projection screen"></div>
+      <div class="cell g-watch"><button class="dj-tile dj-watch" type="button" aria-haspopup="dialog" aria-controls="vbox" aria-label="Featured on DJ City: watch the video"><img src="vid/djcity-tile.jpg" alt="" style="object-position:60% center"><span class="cap"><span class="txt"><span class="k">Featured on</span><span class="t">DJ City</span></span><span class="pl"><svg viewBox="0 0 10 12" aria-hidden="true"><polygon points="0,0 10,6 0,12"/></svg></span></span></button></div>
     </div>
   </section>
 
@@ -858,7 +875,7 @@ var SPARKBOX_LATEST_MIX = 'https://soundcloud.com/djsparkbox/sparkbox-live-at-v-
   });
   w.bind(E.PLAY, function(){
     clearTimeout(fbTimer); bar.classList.remove('fb'); setPlaying(true);
-    document.querySelectorAll('.clip video').forEach(function(v){ v.pause(); });
+    document.querySelectorAll('.clip video, #vbox-video').forEach(function(v){ v.pause(); });
   });
   w.bind(E.PAUSE, function(){ setPlaying(false); });
   w.bind(E.FINISH, function(){ setPlaying(false); setProgress(0); if (sound) $('mx-time').textContent = fmt(sound.duration); });
@@ -946,5 +963,28 @@ document.querySelectorAll('[data-copy]').forEach(function(btn){
 });
 </script>
 
+<dialog class="vbox" id="vbox" aria-label="Featured on DJ City, video">
+  <div class="vhead"><div class="vt">Featured on <b>DJ City</b></div><button class="vclose" type="button" aria-label="Close video">&#10005;</button></div>
+  <div class="vframe"><video id="vbox-video" controls playsinline preload="none" poster="vid/bedroom-sessions.jpg"></video></div>
+</dialog>
+<script>
+(function(){
+  var dlg = document.getElementById('vbox'), btn = document.querySelector('.dj-watch');
+  if (!dlg || !btn) return;
+  var v = document.getElementById('vbox-video');
+  function close(){ v.pause(); if (dlg.open) dlg.close(); }
+  btn.addEventListener('click', function(){
+    if (window.sparkboxPauseMix) window.sparkboxPauseMix();
+    document.querySelectorAll('.clip video').forEach(function(o){ o.pause(); });
+    if (!v.getAttribute('src')) v.src = 'vid/bedroom-sessions.mp4';
+    if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
+    var p = v.play(); if (p && p.catch) p.catch(function(){});
+  });
+  dlg.querySelector('.vclose').addEventListener('click', close);
+  dlg.addEventListener('click', function(e){ if (e.target === dlg) close(); });
+  dlg.addEventListener('close', function(){ v.pause(); btn.focus(); });
+  v.addEventListener('play', function(){ if (window.sparkboxPauseMix) window.sparkboxPauseMix(); });
+})();
+</script>
 </body>
 </html>
