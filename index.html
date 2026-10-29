@@ -461,7 +461,7 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
       </button>
       <div class="now-text">
         <span class="now-k">Latest mix</span>
-        <span class="now-title" id="mx-title">DJ Sparkbox</span>
+        <span class="now-title" id="mx-title">Sparkbox Live at V-Modern Italian Charleston 10.2.26</span>
       </div>
       <div class="now-track" id="mx-track">
         <div class="mx-bar" id="mx-bar" role="slider" tabindex="0" aria-label="Mix position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
@@ -470,7 +470,7 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
         </div>
       </div>
       <span class="mx-time" id="mx-time">0:00</span>
-      <a class="now-sc" id="mx-link" href="https://on.soundcloud.com/gVbggEzQ4Qco1S0n2J" target="_blank" rel="noopener"><span class="long">SoundCloud </span>&#8599;</a>
+      <a class="now-sc" id="mx-link" href="https://soundcloud.com/djsparkbox/sparkbox-live-at-v-modern" target="_blank" rel="noopener"><span class="long">SoundCloud </span>&#8599;</a>
     </div>
   </section>
   <section id="top" class="wrap hero" aria-label="DJ Sparkbox">
@@ -800,13 +800,13 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
 
 <script src="https://w.soundcloud.com/player/api.js"></script>
 <script>
-/* Latest mix. To feature a new mix, paste its SoundCloud link here. Title and length load automatically. */
-var SPARKBOX_LATEST_MIX = 'https://on.soundcloud.com/gVbggEzQ4Qco1S0n2J';
+/* Latest mix. To feature a new mix, paste its full soundcloud.com link here (and the title in #mx-title as a backup). */
+var SPARKBOX_LATEST_MIX = 'https://soundcloud.com/djsparkbox/sparkbox-live-at-v-modern';
 (function(){
   var bar = document.getElementById('latest-mix');
   if (!bar) return;
   var $ = function(id){ return document.getElementById(id); };
-  var w = null, sound = null, playing = false, fbTimer = null;
+  var w = null, sound = null, playing = false, fbTimer = null, wantPlay = false;
   function fmt(ms){ ms = Math.max(0, Math.round((ms || 0) / 1000)); var h = Math.floor(ms / 3600), m = Math.floor(ms % 3600 / 60), s = ms % 60; return (h ? h + ':' + String(m).padStart(2, '0') : m) + ':' + String(s).padStart(2, '0'); }
   function setProgress(rel){
     rel = Math.max(0, Math.min(1, rel || 0));
@@ -818,15 +818,14 @@ var SPARKBOX_LATEST_MIX = 'https://on.soundcloud.com/gVbggEzQ4Qco1S0n2J';
     playing = p; bar.classList.toggle('is-playing', p);
     $('mx-play').setAttribute('aria-label', p ? 'Pause the latest mix' : 'Play the latest mix');
   }
-  function openOnSoundCloud(){ window.open((sound && sound.permalink_url) || SPARKBOX_LATEST_MIX, '_blank', 'noopener'); }
   $('mx-link').href = SPARKBOX_LATEST_MIX;
   window.sparkboxPauseMix = function(){ if (w) w.pause(); };
   $('mx-play').addEventListener('click', function(){
-    if (!w || !sound) { openOnSoundCloud(); return; }
-    if (playing) { w.pause(); return; }
-    w.play();
+    if (playing && w) { w.pause(); return; }
+    wantPlay = true;
+    if (w) w.play();
     clearTimeout(fbTimer);
-    fbTimer = setTimeout(function(){ if (!playing) bar.classList.add('fb'); }, 2500);
+    fbTimer = setTimeout(function(){ if (!playing) bar.classList.add('fb'); }, 1800);
   });
   function seekFromEvent(e){
     if (!w || !sound) return;
@@ -855,6 +854,7 @@ var SPARKBOX_LATEST_MIX = 'https://on.soundcloud.com/gVbggEzQ4Qco1S0n2J';
       $('mx-time').textContent = fmt(s.duration);
       if (s.permalink_url) $('mx-link').href = s.permalink_url;
     });
+    if (wantPlay && !playing) w.play();
   });
   w.bind(E.PLAY, function(){
     clearTimeout(fbTimer); bar.classList.remove('fb'); setPlaying(true);
