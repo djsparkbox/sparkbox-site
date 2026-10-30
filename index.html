@@ -230,6 +230,19 @@ dialog.vbox::backdrop{background:rgba(6,6,6,.94)}
 .sunsets{border:2px solid var(--gold);padding:16px 20px 18px;display:flex;flex-direction:column;gap:6px;margin-top:6px}
 .sunsets .n{font-weight:900;font-size:clamp(44px,4.6vw,60px);line-height:.9;letter-spacing:.01em;color:var(--gold)}
 .sunsets .w{font-weight:700;font-size:clamp(20px,2vw,25px);color:var(--ink)}
+.ss-clips{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px}
+.ss-clip{position:relative;display:block;padding:0;border:0;background:#000;cursor:pointer;aspect-ratio:4/3;overflow:hidden;font:inherit;color:var(--ink);text-align:left}
+.ss-clip img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
+.ss-clip:hover img{transform:scale(1.04)}
+.ss-clip .cap{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:flex-end;justify-content:space-between;gap:8px;padding:44px 10px 10px;background:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.6) 40%,rgba(0,0,0,.92))}
+.ss-clip .t{color:var(--ink);font-weight:900;font-size:clamp(17px,1.6vw,21px);line-height:.95;text-transform:uppercase;letter-spacing:.02em}
+.ss-clip .pl{flex:none;width:34px;height:34px;display:grid;place-items:center;background:var(--gold);clip-path:polygon(1% 3%,99% 0,100% 100%,0 98%);transition:background .2s ease}
+.ss-clip .pl svg{width:10px;height:12px;margin-left:2px;fill:var(--on-gold)}
+.ss-clip:hover .pl{background:var(--ink)}
+.vbox .ss-tabs{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+.vbox .ss-tab{padding:10px 14px;background:transparent;border:1px solid rgba(242,239,232,.4);color:var(--ink);cursor:pointer;font:700 18px/1 var(--font);letter-spacing:.04em;text-transform:uppercase}
+.vbox .ss-tab[aria-current="true"]{border-color:var(--gold);color:var(--gold)}
+#ssbox video{aspect-ratio:auto;height:min(70vh,calc(100vh - 200px));object-fit:contain}
 
 /* Brand assets */
 .brand-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px 40px;flex-wrap:wrap;margin-bottom:30px}
@@ -670,7 +683,7 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
         </ul>
         <div class="box-label">CITIES PLAYED</div>
         <div class="cities"><span>CHARLOTTE</span><span class="s">/</span><span>MIAMI</span><span class="s">/</span><span>NEW YORK</span><span class="s">/</span><span>TORONTO</span><span class="s">/</span><span>ATLANTA</span></div>
-        <div class="sunsets"><div class="n">SUN-SETS</div><div class="w">Branded party at Revelry Brewing</div></div>
+        <div class="sunsets"><div class="n">SUN-SETS</div><div class="w">Branded party at Revelry Brewing</div><div class="ss-clips"><button class="ss-clip" type="button" data-clip="0" aria-haspopup="dialog" aria-controls="ssbox" aria-label="Watch Annual Block Party"><img src="vid/sunsets-block-party.jpg" alt="" loading="lazy"><span class="cap"><span class="t">Annual Block Party</span><span class="pl"><svg viewBox="0 0 10 12" aria-hidden="true"><polygon points="0,0 10,6 0,12"/></svg></span></span></button><button class="ss-clip" type="button" data-clip="1" aria-haspopup="dialog" aria-controls="ssbox" aria-label="Watch Bridge Run Afterparty"><img src="vid/sunsets-bridge-run.jpg" alt="" loading="lazy" style="object-position:center 25%"><span class="cap"><span class="t">Bridge Run Afterparty</span><span class="pl"><svg viewBox="0 0 10 12" aria-hidden="true"><polygon points="0,0 10,6 0,12"/></svg></span></span></button></div></div>
       </div>
     </div>
 
@@ -922,7 +935,7 @@ var SPARKBOX_LATEST_MIX = 'https://soundcloud.com/djsparkbox/sparkbox-live-at-v-
   });
   w.bind(E.PLAY, function(){
     clearTimeout(fbTimer); bar.classList.remove('fb'); setPlaying(true);
-    document.querySelectorAll('.clip video, #vbox-video').forEach(function(v){ v.pause(); });
+    document.querySelectorAll('.clip video, #vbox-video, #ssbox-video').forEach(function(v){ v.pause(); });
   });
   w.bind(E.PAUSE, function(){ setPlaying(false); });
   w.bind(E.FINISH, function(){ setPlaying(false); setProgress(0); if (sound) $('mx-time').textContent = fmt(sound.duration); });
@@ -1034,6 +1047,43 @@ document.querySelectorAll('[data-copy]').forEach(function(btn){
   dlg.querySelector('.vclose').addEventListener('click', close);
   dlg.addEventListener('click', function(e){ if (e.target === dlg) close(); });
   dlg.addEventListener('close', function(){ v.pause(); btn.focus(); });
+  v.addEventListener('play', function(){ if (window.sparkboxPauseMix) window.sparkboxPauseMix(); });
+})();
+</script>
+<dialog class="vbox" id="ssbox" aria-label="Sun-Sets at Revelry, videos">
+  <div class="vhead"><div class="vt">Sun-Sets <b>at Revelry</b></div><button class="vclose" type="button" aria-label="Close video">&#10005;</button></div>
+  <div class="vframe"><video id="ssbox-video" controls playsinline preload="none"></video></div>
+  <div class="ss-tabs"><button class="ss-tab" type="button" data-clip="0">Annual Block Party</button><button class="ss-tab" type="button" data-clip="1">Bridge Run Afterparty</button></div>
+</dialog>
+<script>
+(function(){
+  var dlg = document.getElementById('ssbox');
+  if (!dlg) return;
+  var v = document.getElementById('ssbox-video'), opener = null;
+  var clips = [
+    { src: 'vid/sunsets-block-party.mp4', poster: 'vid/sunsets-block-party.jpg' },
+    { src: 'vid/sunsets-bridge-run.mp4', poster: 'vid/sunsets-bridge-run.jpg' }
+  ];
+  var tabs = dlg.querySelectorAll('.ss-tab');
+  function load(i){
+    v.pause(); v.poster = clips[i].poster; v.src = clips[i].src;
+    tabs.forEach(function(t){ t.setAttribute('aria-current', t.dataset.clip == i ? 'true' : 'false'); });
+    var p = v.play(); if (p && p.catch) p.catch(function(){});
+  }
+  function close(){ v.pause(); if (dlg.open) dlg.close(); }
+  document.querySelectorAll('.ss-clip').forEach(function(b){
+    b.addEventListener('click', function(){
+      opener = b;
+      if (window.sparkboxPauseMix) window.sparkboxPauseMix();
+      document.querySelectorAll('.clip video, #vbox-video').forEach(function(o){ o.pause(); });
+      if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
+      load(+b.dataset.clip);
+    });
+  });
+  tabs.forEach(function(t){ t.addEventListener('click', function(){ load(+t.dataset.clip); }); });
+  dlg.querySelector('.vclose').addEventListener('click', close);
+  dlg.addEventListener('click', function(e){ if (e.target === dlg) close(); });
+  dlg.addEventListener('close', function(){ v.pause(); if (opener) opener.focus(); });
   v.addEventListener('play', function(){ if (window.sparkboxPauseMix) window.sparkboxPauseMix(); });
 })();
 </script>
