@@ -116,6 +116,9 @@ body:not(.view-brand) #brand-assets{display:none}
 .bio-text{display:flex;flex-direction:column;gap:22px;min-width:0}
 .bio-text p{margin:0;color:var(--ink-2);max-width:62ch;font-size:clamp(20px,1.6vw,22px);line-height:1.5}
 .pull{display:flex;gap:18px;margin-top:8px}
+.yrs{display:flex;align-items:baseline;gap:14px;margin-top:6px}
+.yrs b{font-weight:900;font-size:clamp(64px,8vw,104px);line-height:.85;color:var(--gold)}
+.yrs span{font-weight:800;font-size:clamp(22px,2.4vw,30px);letter-spacing:.08em;text-transform:uppercase;color:var(--ink)}
 .pull span{width:4px;flex:none;background:var(--gold)}
 .pull p{font-weight:700;font-size:clamp(24px,2.6vw,30px);line-height:1.22;color:var(--ink);margin:0}
 .story{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
@@ -190,6 +193,8 @@ dialog.vbox::backdrop{background:rgba(6,6,6,.94)}
 .clips{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
 .clip{margin:0;min-width:0;position:relative;aspect-ratio:4/5;overflow:hidden;background:#000}
 .clip.feat{grid-column:span 2;grid-row:span 2}
+.clips:not(.all) .clip.more{display:none}
+.clips-more{margin-top:20px}
 .clip .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(.25) contrast(1.1) brightness(.62);transition:filter .3s ease,transform .6s ease}
 .clip:hover .poster{filter:grayscale(0) contrast(1.1) brightness(.78);transform:scale(1.03)}
 .clip video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000;display:block}
@@ -225,6 +230,19 @@ dialog.vbox::backdrop{background:rgba(6,6,6,.94)}
 .sunsets{border:2px solid var(--gold);padding:16px 20px 18px;display:flex;flex-direction:column;gap:6px;margin-top:6px}
 .sunsets .n{font-weight:900;font-size:clamp(44px,4.6vw,60px);line-height:.9;letter-spacing:.01em;color:var(--gold)}
 .sunsets .w{font-weight:700;font-size:clamp(20px,2vw,25px);color:var(--ink)}
+.ss-clips{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px}
+.ss-clip{position:relative;display:block;padding:0;border:0;background:#000;cursor:pointer;aspect-ratio:4/3;overflow:hidden;font:inherit;color:var(--ink);text-align:left}
+.ss-clip img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
+.ss-clip:hover img{transform:scale(1.04)}
+.ss-clip .cap{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:flex-end;justify-content:space-between;gap:8px;padding:44px 10px 10px;background:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.6) 40%,rgba(0,0,0,.92))}
+.ss-clip .t{color:var(--ink);font-weight:900;font-size:clamp(17px,1.6vw,21px);line-height:.95;text-transform:uppercase;letter-spacing:.02em}
+.ss-clip .pl{flex:none;width:34px;height:34px;display:grid;place-items:center;background:var(--gold);clip-path:polygon(1% 3%,99% 0,100% 100%,0 98%);transition:background .2s ease}
+.ss-clip .pl svg{width:10px;height:12px;margin-left:2px;fill:var(--on-gold)}
+.ss-clip:hover .pl{background:var(--ink)}
+.vbox .ss-tabs{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+.vbox .ss-tab{padding:10px 14px;background:transparent;border:1px solid rgba(242,239,232,.4);color:var(--ink);cursor:pointer;font:700 18px/1 var(--font);letter-spacing:.04em;text-transform:uppercase}
+.vbox .ss-tab[aria-current="true"]{border-color:var(--gold);color:var(--gold)}
+#ssbox video{aspect-ratio:auto;height:min(70vh,calc(100vh - 200px));object-fit:contain}
 
 /* Brand assets */
 .brand-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px 40px;flex-wrap:wrap;margin-bottom:30px}
@@ -337,8 +355,8 @@ dialog.vbox::backdrop{background:rgba(6,6,6,.94)}
 .sayavoid span{display:block;font-weight:800;font-size:18px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
 .sayavoid p{margin:0;font-size:22px;line-height:1.35}
 .say span{color:var(--gold)}
-.avoid span{color:#E8796B}
-.avoid p{color:var(--faint);text-decoration:line-through;text-decoration-color:rgba(232,121,107,.7)}
+.avoid span{color:var(--muted)}
+.avoid p{color:var(--faint);text-decoration:line-through;text-decoration-color:var(--faint)}
 .clear{margin:0;background:#161616;padding:clamp(24px,4vw,48px);display:flex;flex-direction:column;align-items:center;gap:22px}
 .clear-box{position:relative;border:1px dashed rgba(242,179,61,.8);padding:clamp(28px,4vw,48px);width:min(100%,560px)}
 .clear-box img{display:block;width:100%;height:auto}
@@ -352,7 +370,7 @@ dialog.vbox::backdrop{background:rgba(6,6,6,.94)}
 .dpv{aspect-ratio:4/3;background:#161616;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .dpv img{width:66%;height:auto}
 .dont figcaption{font-size:19px;line-height:1.3;color:var(--ink-2);display:flex;gap:8px;align-items:baseline}
-.dont i{font-style:normal;font-weight:900;color:#E8796B}
+.dont i{font-style:normal;font-weight:900;color:var(--muted)}
 .bg-split{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1fr);gap:28px;align-items:center}
 .spark-hero{background:#161616;aspect-ratio:1;display:flex;align-items:center;justify-content:center}
 .spark-hero img{width:62%;height:auto}
@@ -525,7 +543,7 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
         </div>
       </div>
       <div class="hero-ctas">
-        <a class="btn btn-gold" href="#outside">Watch Outside the Box</a>
+        <button class="btn btn-gold" type="button" id="hero-play">Play latest mix</button>
         <button class="btn" type="button" data-copy="booksparkbox@gmail.com" data-target="email-hero">Copy email</button>
       </div>
     </div>
@@ -550,14 +568,15 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
     <div class="bio">
       <div class="bio-text">
         <h2>Self&#8209;taught. Sought&#8209;after.</h2>
-        <p>Paul Schmidt is a Greenville, SC native with ties to Charleston, SC. As a passion-filled, self-taught turntablist, Paul began sharpening his skills in front of small crowds in the Charleston, SC market. His love for hip hop music directed Paul into producing tracks for local artists. Paul continued to show his promise as a producer, which led him to DJing. His reputation became so esteemed that bookings increased for local parties and venues, to where he developed his stage name DJ Sparkbox — for always showing up with the spark of energy.</p>
-        <p>DJ Sparkbox has performed alongside acts such as Waka Flocka, Fetty Wap, Sheck Wes, DJ Craze and world-famous Diplo, to name a few. He humbly travels regionally in the southeast while he continues to hold residencies in South Carolina's premier nightclubs. To date, DJ Sparkbox has become one of the most sought-after DJs in South Carolina. His national appearances on DJ City have led him up and down the east coast as well as Toronto. Sparkbox shows no signs of slowing down.</p>
-        <div class="pull"><span></span><p>Rooted in hip hop, a Sparkbox set moves through R&amp;B, rap, trap, bass and house, reading the room and keeping the energy up from open to close.</p></div>
+        <p>Paul Schmidt is a Greenville, SC native who came up in Charleston. He taught himself on the turntables, produced tracks for local artists, then took over the booth at parties and clubs across the city. The name DJ Sparkbox came from always showing up with the spark of energy.</p>
+        <p>Since then he has held residencies at Charleston's top nightclubs, played across the Southeast, and taken the DJ City stage up the East Coast and in Toronto.</p>
+        <div class="yrs"><b>15+</b><span>Years on the decks</span></div>
+        <div class="pull"><span></span><p>Reads the room. Keeps the energy up from open to close.</p></div>
       </div>
       <div class="story">
         <figure class="tall">
           <img src="img/live-orange.jpg" alt="DJ Sparkbox silhouetted on Rane turntables against a glowing orange wall" style="object-position:center 70%">
-          <figcaption class="cap">Self-taught turntablist</figcaption>
+          <figcaption class="cap">Where it started</figcaption>
         </figure>
         <figure>
           <img src="img/live-film.jpg" alt="Film snapshot of DJ Sparkbox smiling at an outdoor block party">
@@ -633,37 +652,38 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
       </div>
       <p>Studio sessions on the decks: new blends, routines and mixes, straight from the room where the sets get built.</p>
     </div>
-    <div class="clips">
-      <figure class="clip feat" data-src="vid/new-level.mp4"><img class="poster" src="vid/new-level.jpg" alt=""><button class="spark" type="button" aria-label="Spark it: New Level Wordplay"><span class="shade"></span><svg class="box" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polygon points="1,3 99,0 100,100 0,98"/></svg><span class="dur">0:47</span><span class="cue"><svg class="bolt" viewBox="60 6 94 190" aria-hidden="true"><polygon fill="#F2B33D" stroke="#0B0B0B" stroke-width="8" stroke-linejoin="miter" paint-order="stroke" points="114,14 146,14 116,82 142,82 80,188 96,108 68,108"/></svg><span class="chip">Spark it</span></span><span class="title">New Level Wordplay</span></button></figure>
-      <figure class="clip feat" data-src="vid/ili.mp4"><img class="poster" src="vid/ili.jpg" alt="" style="object-position:center 40%"><button class="spark" type="button" aria-label="Spark it: R&amp;B Quick Mix"><span class="shade"></span><svg class="box" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polygon points="0,1 99,4 100,97 1,100"/></svg><span class="dur">1:43</span><span class="cue"><svg class="bolt" viewBox="60 6 94 190" aria-hidden="true"><polygon fill="#F2B33D" stroke="#0B0B0B" stroke-width="8" stroke-linejoin="miter" paint-order="stroke" points="114,14 146,14 116,82 142,82 80,188 96,108 68,108"/></svg><span class="chip">Spark it</span></span><span class="title">R&amp;B Quick Mix</span></button></figure>
+    <div class="clips" id="clips">
+      <figure class="clip" data-src="vid/ili.mp4"><img class="poster" src="vid/ili.jpg" alt="" style="object-position:center 40%"><button class="spark" type="button" aria-label="Spark it: R&amp;B Quick Mix"><span class="shade"></span><svg class="box" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polygon points="0,1 99,4 100,97 1,100"/></svg><span class="dur">1:43</span><span class="cue"><svg class="bolt" viewBox="60 6 94 190" aria-hidden="true"><polygon fill="#F2B33D" stroke="#0B0B0B" stroke-width="8" stroke-linejoin="miter" paint-order="stroke" points="114,14 146,14 116,82 142,82 80,188 96,108 68,108"/></svg><span class="chip">Spark it</span></span><span class="title">R&amp;B Quick Mix</span></button></figure>
       <figure class="clip" data-src="vid/honest.mp4"><img class="poster" src="vid/honest.jpg" alt="" style="object-position:center 40%"><button class="spark" type="button" aria-label="Spark it: Honest / Million / September"><span class="shade"></span><svg class="box" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polygon points="1,3 99,0 100,100 0,98"/></svg><span class="dur">1:04</span><span class="cue"><svg class="bolt" viewBox="60 6 94 190" aria-hidden="true"><polygon fill="#F2B33D" stroke="#0B0B0B" stroke-width="8" stroke-linejoin="miter" paint-order="stroke" points="114,14 146,14 116,82 142,82 80,188 96,108 68,108"/></svg><span class="chip">Spark it</span></span><span class="title">Honest / Million / September</span></button></figure>
       <figure class="clip" data-src="vid/girls.mp4"><img class="poster" src="vid/girls.jpg" alt="" style="object-position:center 40%"><button class="spark" type="button" aria-label="Spark it: Girls"><span class="shade"></span><svg class="box" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polygon points="0,1 99,4 100,97 1,100"/></svg><span class="dur">0:58</span><span class="cue"><svg class="bolt" viewBox="60 6 94 190" aria-hidden="true"><polygon fill="#F2B33D" stroke="#0B0B0B" stroke-width="8" stroke-linejoin="miter" paint-order="stroke" points="114,14 146,14 116,82 142,82 80,188 96,108 68,108"/></svg><span class="chip">Spark it</span></span><span class="title">Girls</span></button></figure>
-      <figure class="clip" data-src="vid/baddadan.mp4"><img class="poster" src="vid/baddadan.jpg" alt="" style="object-position:center 45%"><button class="spark" type="button" aria-label="Spark it: Baddadan / Headlines"><span class="shade"></span><svg class="box" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polygon points="1,3 99,0 100,100 0,98"/></svg><span class="dur">0:42</span><span class="cue"><svg class="bolt" viewBox="60 6 94 190" aria-hidden="true"><polygon fill="#F2B33D" stroke="#0B0B0B" stroke-width="8" stroke-linejoin="miter" paint-order="stroke" points="114,14 146,14 116,82 142,82 80,188 96,108 68,108"/></svg><span class="chip">Spark it</span></span><span class="title">Baddadan / Headlines</span></button></figure>
       <figure class="clip" data-src="vid/crazy-nasty.mp4"><img class="poster" src="vid/crazy-nasty.jpg" alt="" style="object-position:center 40%"><button class="spark" type="button" aria-label="Spark it: Crazy Nasty"><span class="shade"></span><svg class="box" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polygon points="0,1 99,4 100,97 1,100"/></svg><span class="dur">1:03</span><span class="cue"><svg class="bolt" viewBox="60 6 94 190" aria-hidden="true"><polygon fill="#F2B33D" stroke="#0B0B0B" stroke-width="8" stroke-linejoin="miter" paint-order="stroke" points="114,14 146,14 116,82 142,82 80,188 96,108 68,108"/></svg><span class="chip">Spark it</span></span><span class="title">Crazy Nasty</span></button></figure>
-      <figure class="clip" data-src="vid/sequence-01.mp4"><img class="poster" src="vid/sequence-01.jpg" alt="" style="object-position:center 40%"><button class="spark" type="button" aria-label="Spark it: Creative Distribution"><span class="shade"></span><svg class="box" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polygon points="1,3 99,0 100,100 0,98"/></svg><span class="dur">1:03</span><span class="cue"><svg class="bolt" viewBox="60 6 94 190" aria-hidden="true"><polygon fill="#F2B33D" stroke="#0B0B0B" stroke-width="8" stroke-linejoin="miter" paint-order="stroke" points="114,14 146,14 116,82 142,82 80,188 96,108 68,108"/></svg><span class="chip">Spark it</span></span><span class="title">Creative Distribution</span></button></figure>
-      <figure class="clip" data-src="vid/juggle.mp4"><img class="poster" src="vid/juggle.jpg" alt="" style="object-position:center 45%"><button class="spark" type="button" aria-label="Spark it: Juggle"><span class="shade"></span><svg class="box" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polygon points="0,1 99,4 100,97 1,100"/></svg><span class="dur">0:34</span><span class="cue"><svg class="bolt" viewBox="60 6 94 190" aria-hidden="true"><polygon fill="#F2B33D" stroke="#0B0B0B" stroke-width="8" stroke-linejoin="miter" paint-order="stroke" points="114,14 146,14 116,82 142,82 80,188 96,108 68,108"/></svg><span class="chip">Spark it</span></span><span class="title">Juggle</span></button></figure>
-      <figure class="clip" data-src="vid/excuse.mp4"><img class="poster" src="vid/excuse.jpg" alt="" style="object-position:center 40%"><button class="spark" type="button" aria-label="Spark it: Excuse Ur Love"><span class="shade"></span><svg class="box" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polygon points="1,3 99,0 100,100 0,98"/></svg><span class="dur">1:18</span><span class="cue"><svg class="bolt" viewBox="60 6 94 190" aria-hidden="true"><polygon fill="#F2B33D" stroke="#0B0B0B" stroke-width="8" stroke-linejoin="miter" paint-order="stroke" points="114,14 146,14 116,82 142,82 80,188 96,108 68,108"/></svg><span class="chip">Spark it</span></span><span class="title">Excuse Ur Love</span></button></figure>
-      <figure class="clip" data-src="vid/money-routine.mp4"><img class="poster" src="vid/money-routine.jpg" alt=""><button class="spark" type="button" aria-label="Spark it: Money Routine"><span class="shade"></span><svg class="box" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polygon points="0,1 99,4 100,97 1,100"/></svg><span class="dur">1:41</span><span class="cue"><svg class="bolt" viewBox="60 6 94 190" aria-hidden="true"><polygon fill="#F2B33D" stroke="#0B0B0B" stroke-width="8" stroke-linejoin="miter" paint-order="stroke" points="114,14 146,14 116,82 142,82 80,188 96,108 68,108"/></svg><span class="chip">Spark it</span></span><span class="title">Money Routine</span></button></figure>
+      <figure class="clip more" data-src="vid/new-level.mp4"><img class="poster" src="vid/new-level.jpg" alt=""><button class="spark" type="button" aria-label="Spark it: New Level Wordplay"><span class="shade"></span><svg class="box" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polygon points="1,3 99,0 100,100 0,98"/></svg><span class="dur">0:47</span><span class="cue"><svg class="bolt" viewBox="60 6 94 190" aria-hidden="true"><polygon fill="#F2B33D" stroke="#0B0B0B" stroke-width="8" stroke-linejoin="miter" paint-order="stroke" points="114,14 146,14 116,82 142,82 80,188 96,108 68,108"/></svg><span class="chip">Spark it</span></span><span class="title">New Level Wordplay</span></button></figure>
+      <figure class="clip more" data-src="vid/baddadan.mp4"><img class="poster" src="vid/baddadan.jpg" alt="" style="object-position:center 45%"><button class="spark" type="button" aria-label="Spark it: Baddadan / Headlines"><span class="shade"></span><svg class="box" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polygon points="1,3 99,0 100,100 0,98"/></svg><span class="dur">0:42</span><span class="cue"><svg class="bolt" viewBox="60 6 94 190" aria-hidden="true"><polygon fill="#F2B33D" stroke="#0B0B0B" stroke-width="8" stroke-linejoin="miter" paint-order="stroke" points="114,14 146,14 116,82 142,82 80,188 96,108 68,108"/></svg><span class="chip">Spark it</span></span><span class="title">Baddadan / Headlines</span></button></figure>
+      <figure class="clip more" data-src="vid/sequence-01.mp4"><img class="poster" src="vid/sequence-01.jpg" alt="" style="object-position:center 40%"><button class="spark" type="button" aria-label="Spark it: Creative Distribution"><span class="shade"></span><svg class="box" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polygon points="1,3 99,0 100,100 0,98"/></svg><span class="dur">1:03</span><span class="cue"><svg class="bolt" viewBox="60 6 94 190" aria-hidden="true"><polygon fill="#F2B33D" stroke="#0B0B0B" stroke-width="8" stroke-linejoin="miter" paint-order="stroke" points="114,14 146,14 116,82 142,82 80,188 96,108 68,108"/></svg><span class="chip">Spark it</span></span><span class="title">Creative Distribution</span></button></figure>
+      <figure class="clip more" data-src="vid/juggle.mp4"><img class="poster" src="vid/juggle.jpg" alt="" style="object-position:center 45%"><button class="spark" type="button" aria-label="Spark it: Juggle"><span class="shade"></span><svg class="box" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polygon points="0,1 99,4 100,97 1,100"/></svg><span class="dur">0:34</span><span class="cue"><svg class="bolt" viewBox="60 6 94 190" aria-hidden="true"><polygon fill="#F2B33D" stroke="#0B0B0B" stroke-width="8" stroke-linejoin="miter" paint-order="stroke" points="114,14 146,14 116,82 142,82 80,188 96,108 68,108"/></svg><span class="chip">Spark it</span></span><span class="title">Juggle</span></button></figure>
+      <figure class="clip more" data-src="vid/excuse.mp4"><img class="poster" src="vid/excuse.jpg" alt="" style="object-position:center 40%"><button class="spark" type="button" aria-label="Spark it: Excuse Ur Love"><span class="shade"></span><svg class="box" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polygon points="1,3 99,0 100,100 0,98"/></svg><span class="dur">1:18</span><span class="cue"><svg class="bolt" viewBox="60 6 94 190" aria-hidden="true"><polygon fill="#F2B33D" stroke="#0B0B0B" stroke-width="8" stroke-linejoin="miter" paint-order="stroke" points="114,14 146,14 116,82 142,82 80,188 96,108 68,108"/></svg><span class="chip">Spark it</span></span><span class="title">Excuse Ur Love</span></button></figure>
+      <figure class="clip more" data-src="vid/money-routine.mp4"><img class="poster" src="vid/money-routine.jpg" alt=""><button class="spark" type="button" aria-label="Spark it: Money Routine"><span class="shade"></span><svg class="box" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polygon points="0,1 99,4 100,97 1,100"/></svg><span class="dur">1:41</span><span class="cue"><svg class="bolt" viewBox="60 6 94 190" aria-hidden="true"><polygon fill="#F2B33D" stroke="#0B0B0B" stroke-width="8" stroke-linejoin="miter" paint-order="stroke" points="114,14 146,14 116,82 142,82 80,188 96,108 68,108"/></svg><span class="chip">Spark it</span></span><span class="title">Money Routine</span></button></figure>
     </div>
+    <button class="btn clips-more" type="button" id="clips-more" aria-controls="clips">See all 10 clips</button>
   </section>
 
   <section id="booking" class="wrap section" style="padding-top:0">
     <div class="resi">
       <img class="resi-photo" src="img/club-pink.jpg" alt="DJ Sparkbox on Pioneer decks over a packed club floor under pink and purple lights">
       <div class="resi-list">
-        <div class="strip">Residencies</div>
+        <div class="strip">Rooms held down</div>
         <div style="font-weight:700;font-size:clamp(24px,2.4vw,30px);line-height:1;letter-spacing:.04em;color:var(--gold);margin:-4px 0 -6px">Charleston, SC</div>
         <ul class="venues">
-          <li>TRIO</li>
-          <li>DECO</li>
-          <li>REPUBLIC GARDEN &amp; LOUNGE</li>
-          <li>INK</li>
           <li>V-MODERN</li>
+          <li>RITUAL</li>
+          <li>TRIO</li>
+          <li>REPUBLIC</li>
+          <li>INK</li>
           <li class="g">+ MORE</li>
         </ul>
         <div class="box-label">CITIES PLAYED</div>
         <div class="cities"><span>CHARLOTTE</span><span class="s">/</span><span>MIAMI</span><span class="s">/</span><span>NEW YORK</span><span class="s">/</span><span>TORONTO</span><span class="s">/</span><span>ATLANTA</span></div>
-        <div class="sunsets"><div class="n">SUN-SETS</div><div class="w">Branded party at Revelry Brewing</div></div>
+        <div class="sunsets"><div class="n">SUN-SETS</div><div class="w">Branded party at Revelry Brewing</div><div class="ss-clips"><button class="ss-clip" type="button" data-clip="0" aria-haspopup="dialog" aria-controls="ssbox" aria-label="Watch Annual Block Party"><img src="vid/sunsets-block-party.jpg" alt="" loading="lazy"><span class="cap"><span class="t">Annual Block Party</span><span class="pl"><svg viewBox="0 0 10 12" aria-hidden="true"><polygon points="0,0 10,6 0,12"/></svg></span></span></button><button class="ss-clip" type="button" data-clip="1" aria-haspopup="dialog" aria-controls="ssbox" aria-label="Watch Bridge Run Afterparty"><img src="vid/sunsets-bridge-run.jpg" alt="" loading="lazy" style="object-position:center 25%"><span class="cap"><span class="t">Bridge Run Afterparty</span><span class="pl"><svg viewBox="0 0 10 12" aria-hidden="true"><polygon points="0,0 10,6 0,12"/></svg></span></span></button></div></div>
       </div>
     </div>
 
@@ -680,7 +700,7 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
         <a href="https://www.instagram.com/djsparkbox"><b>INSTAGRAM</b><span>djsparkbox</span></a>
         <a href="https://www.facebook.com/djsparkbox"><b>FACEBOOK</b><span>djsparkbox</span></a>
         <a href="https://soundcloud.com/djsparkbox"><b>SOUNDCLOUD</b><span>djsparkbox</span></a>
-        <div><b>YOUTUBE</b><span>djsparkbox</span></div>
+        <a href="https://www.youtube.com/@djsparkbox"><b>YOUTUBE</b><span>djsparkbox</span></a>
       </div>
     </div>
   </section>
@@ -694,7 +714,7 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
       <a class="btn btn-gold" href="brand/sparkbox-brand-assets.zip" download>Download all (ZIP)</a>
     </div>
     <nav class="bg-nav" aria-label="Guideline sections">
-      <a href="#bg-story">Story</a><a href="#bg-logo">Logo</a><a href="#bg-spark">The spark</a><a href="#bg-color">Color</a><a href="#bg-type">Type</a><a href="#bg-photo">Photography</a><a href="#bg-use">In use</a><a href="#bg-downloads">Downloads</a>
+      <a href="#bg-story">Story</a><a href="#bg-spark">The spark</a><a href="#bg-logo">Logo</a><a href="#bg-color">Color</a><a href="#bg-type">Type</a><a href="#bg-photo">Photography</a><a href="#bg-use">In use</a><a href="#bg-downloads">Downloads</a>
     </nav>
 
     <section class="bg-sec" id="bg-story" aria-labelledby="bg-story-h">
@@ -702,8 +722,8 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
       <div class="bg-body">
         <p class="bg-big">A spark breaking out of the box.</p>
         <div class="bg-cols">
-          <p>Every DJ starts in a box: the booth, the decks, the set everybody expects. Paul Schmidt taught himself to turn that box into an instrument. Self-taught on the turntables in Charleston, he built a name for always showing up with the spark of energy. That's where DJ Sparkbox comes from.</p>
-          <p>The brand is that moment when it breaks loose: the blend nobody saw coming, the scratch that cuts through, the room going off. Rooted in hip hop and moving through R&amp;B, rap, trap, bass and house, Sparkbox lives just outside the box.</p>
+          <p>Every DJ starts in a box: the booth, the decks, the set everybody expects. Sparkbox is what happens when the box can't hold it anymore.</p>
+          <p>The blend nobody saw coming, the scratch that cuts through, the room going off. That moment is the brand, and every piece of it, from the bolt to the gold, is built to show it.</p>
         </div>
         <div class="pillars">
           <div class="pillar"><b>Energy</b><p>Bring the spark to every set, from the first record to the last.</p></div>
@@ -721,8 +741,21 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
       </div>
     </section>
 
+    <section class="bg-sec" id="bg-spark" aria-labelledby="bg-spark-h">
+      <div class="bg-meta"><span class="bg-num">02</span><h3 id="bg-spark-h">The spark</h3><p>The icon tells the whole story in one mark.</p></div>
+      <div class="bg-body bg-split">
+        <div class="spark-hero"><img src="brand/preview/sparkbox-icon-bone-gold.png" alt="The Sparkbox icon: a tilted box with a gold bolt breaking out of it"></div>
+        <div class="spark-notes">
+          <div><b>The box</b><p>The booth, the decks, the expected set.</p></div>
+          <div><b>The bolt</b><p>The spark breaking out of it. Always gold when color is available.</p></div>
+          <div><b>The spikes</b><p>Taken from the bars on the wordmark, so the two always belong together.</p></div>
+          <div><b>Use it for</b><p>Profile pictures, stickers, merch and anywhere the wordmark is too wide. Smallest size: 24 px.</p></div>
+        </div>
+      </div>
+    </section>
+
     <section class="bg-sec" id="bg-logo" aria-labelledby="bg-logo-h">
-      <div class="bg-meta"><span class="bg-num">02</span><h3 id="bg-logo-h">Logo</h3><p>The wordmark is the main signature. Use it as supplied, from the downloads below.</p></div>
+      <div class="bg-meta"><span class="bg-num">03</span><h3 id="bg-logo-h">Logo</h3><p>The wordmark is the main signature. Use it as supplied, from the downloads below.</p></div>
       <div class="bg-body">
         <figure class="clear">
           <div class="clear-box">
@@ -736,19 +769,6 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
           <figure class="dont"><div class="dpv"><img src="brand/preview/sparkbox-logo-white.png" alt="" style="transform:rotate(-14deg)"></div><figcaption><i aria-hidden="true">&#10005;</i>Don't tilt or rotate it</figcaption></figure>
           <figure class="dont"><div class="dpv"><img src="brand/preview/sparkbox-logo-gold.png" alt="" style="filter:hue-rotate(170deg) saturate(1.6)"></div><figcaption><i aria-hidden="true">&#10005;</i>Don't use colors outside the palette</figcaption></figure>
           <figure class="dont"><div class="dpv" style="background:#E6E1D6"><img src="brand/preview/sparkbox-logo-bone.png" alt=""></div><figcaption><i aria-hidden="true">&#10005;</i>Don't place it where it disappears</figcaption></figure>
-        </div>
-      </div>
-    </section>
-
-    <section class="bg-sec" id="bg-spark" aria-labelledby="bg-spark-h">
-      <div class="bg-meta"><span class="bg-num">03</span><h3 id="bg-spark-h">The spark</h3><p>The icon tells the whole story in one mark.</p></div>
-      <div class="bg-body bg-split">
-        <div class="spark-hero"><img src="brand/preview/sparkbox-icon-bone-gold.png" alt="The Sparkbox icon: a tilted box with a gold bolt breaking out of it"></div>
-        <div class="spark-notes">
-          <div><b>The box</b><p>The booth, the decks, the expected set.</p></div>
-          <div><b>The bolt</b><p>The spark breaking out of it. Always gold when color is available.</p></div>
-          <div><b>The spikes</b><p>Taken from the bars on the wordmark, so the two always belong together.</p></div>
-          <div><b>Use it for</b><p>Profile pictures, stickers, merch and anywhere the wordmark is too wide. Smallest size: 24 px.</p></div>
         </div>
       </div>
     </section>
@@ -777,7 +797,7 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
         <div class="tiers">
           <div class="tier"><span>Headlines<br>Black 900, capitals, tight</span><p style="font-weight:900;font-size:clamp(38px,4vw,56px);line-height:.95;text-transform:uppercase">Sun-Sets at Revelry</p></div>
           <div class="tier"><span>Labels<br>Bold 700, capitals, slightly spaced</span><p style="font-weight:700;font-size:24px;letter-spacing:.08em;text-transform:uppercase">Residencies · Charleston, SC</p></div>
-          <div class="tier"><span>Body<br>Medium 500, sentence case</span><p style="font-weight:500;font-size:21px;line-height:1.45">Rooted in hip hop, a Sparkbox set moves through R&amp;B, rap, trap, bass and house.</p></div>
+          <div class="tier"><span>Body<br>Medium 500, sentence case</span><p style="font-weight:500;font-size:21px;line-height:1.45">Rooted in hip hop and built for the room.</p></div>
         </div>
       </div>
     </section>
@@ -875,6 +895,8 @@ var SPARKBOX_LATEST_MIX = 'https://soundcloud.com/djsparkbox/sparkbox-live-at-v-
   }
   $('mx-link').href = SPARKBOX_LATEST_MIX;
   window.sparkboxPauseMix = function(){ if (w) w.pause(); };
+  var hp = $('hero-play');
+  if (hp) hp.addEventListener('click', function(){ if (!playing) $('mx-play').click(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
   $('mx-play').addEventListener('click', function(){
     if (playing && w) { w.pause(); return; }
     wantPlay = true;
@@ -913,7 +935,7 @@ var SPARKBOX_LATEST_MIX = 'https://soundcloud.com/djsparkbox/sparkbox-live-at-v-
   });
   w.bind(E.PLAY, function(){
     clearTimeout(fbTimer); bar.classList.remove('fb'); setPlaying(true);
-    document.querySelectorAll('.clip video, #vbox-video').forEach(function(v){ v.pause(); });
+    document.querySelectorAll('.clip video, #vbox-video, #ssbox-video').forEach(function(v){ v.pause(); });
   });
   w.bind(E.PAUSE, function(){ setPlaying(false); });
   w.bind(E.FINISH, function(){ setPlaying(false); setProgress(0); if (sound) $('mx-time').textContent = fmt(sound.duration); });
@@ -979,6 +1001,10 @@ var SPARKBOX_LATEST_MIX = 'https://soundcloud.com/djsparkbox/sparkbox-live-at-v-
   window.addEventListener('hashchange', route);
   route();
 })();
+(function(){
+  var b = document.getElementById('clips-more');
+  if (b) b.addEventListener('click', function(){ document.getElementById('clips').classList.add('all'); b.remove(); });
+})();
 document.querySelectorAll('[data-copy]').forEach(function(btn){
   var original = btn.textContent;
   btn.addEventListener('click', function(){
@@ -1021,6 +1047,43 @@ document.querySelectorAll('[data-copy]').forEach(function(btn){
   dlg.querySelector('.vclose').addEventListener('click', close);
   dlg.addEventListener('click', function(e){ if (e.target === dlg) close(); });
   dlg.addEventListener('close', function(){ v.pause(); btn.focus(); });
+  v.addEventListener('play', function(){ if (window.sparkboxPauseMix) window.sparkboxPauseMix(); });
+})();
+</script>
+<dialog class="vbox" id="ssbox" aria-label="Sun-Sets at Revelry, videos">
+  <div class="vhead"><div class="vt">Sun-Sets <b>at Revelry</b></div><button class="vclose" type="button" aria-label="Close video">&#10005;</button></div>
+  <div class="vframe"><video id="ssbox-video" controls playsinline preload="none"></video></div>
+  <div class="ss-tabs"><button class="ss-tab" type="button" data-clip="0">Annual Block Party</button><button class="ss-tab" type="button" data-clip="1">Bridge Run Afterparty</button></div>
+</dialog>
+<script>
+(function(){
+  var dlg = document.getElementById('ssbox');
+  if (!dlg) return;
+  var v = document.getElementById('ssbox-video'), opener = null;
+  var clips = [
+    { src: 'vid/sunsets-block-party.mp4', poster: 'vid/sunsets-block-party.jpg' },
+    { src: 'vid/sunsets-bridge-run.mp4', poster: 'vid/sunsets-bridge-run.jpg' }
+  ];
+  var tabs = dlg.querySelectorAll('.ss-tab');
+  function load(i){
+    v.pause(); v.poster = clips[i].poster; v.src = clips[i].src;
+    tabs.forEach(function(t){ t.setAttribute('aria-current', t.dataset.clip == i ? 'true' : 'false'); });
+    var p = v.play(); if (p && p.catch) p.catch(function(){});
+  }
+  function close(){ v.pause(); if (dlg.open) dlg.close(); }
+  document.querySelectorAll('.ss-clip').forEach(function(b){
+    b.addEventListener('click', function(){
+      opener = b;
+      if (window.sparkboxPauseMix) window.sparkboxPauseMix();
+      document.querySelectorAll('.clip video, #vbox-video').forEach(function(o){ o.pause(); });
+      if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
+      load(+b.dataset.clip);
+    });
+  });
+  tabs.forEach(function(t){ t.addEventListener('click', function(){ load(+t.dataset.clip); }); });
+  dlg.querySelector('.vclose').addEventListener('click', close);
+  dlg.addEventListener('click', function(e){ if (e.target === dlg) close(); });
+  dlg.addEventListener('close', function(){ v.pause(); if (opener) opener.focus(); });
   v.addEventListener('play', function(){ if (window.sparkboxPauseMix) window.sparkboxPauseMix(); });
 })();
 </script>
