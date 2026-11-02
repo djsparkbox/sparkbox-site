@@ -586,15 +586,11 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
     </div>
   </section>
 
-  <section class="wrap shows" id="shows" aria-label="Upcoming shows">
+  <section class="wrap shows" id="shows" aria-label="Upcoming shows" hidden>
     <div class="shows-in">
       <div class="shows-k"><svg viewBox="60 6 94 190" aria-hidden="true"><polygon points="114,14 146,14 116,82 142,82 80,188 96,108 68,108"/></svg>Next up</div>
       <ul class="show-list" id="show-list">
-        <!-- One <li> per show. Format data-date as YYYY-MM-DD. Past dates hide themselves; only the next 4 show. -->
-        <li class="show" data-date="2026-11-14"><span class="d">14</span><span class="m"><span>Nov</span><span>Sat</span></span><span class="v"><b>V-Modern</b><span>Charleston, SC</span></span></li>
-        <li class="show" data-date="2026-11-21"><span class="d">21</span><span class="m"><span>Nov</span><span>Fri</span></span><span class="v"><b>Ritual</b><span>Charleston, SC</span></span></li>
-        <li class="show" data-date="2026-12-05"><span class="d">05</span><span class="m"><span>Dec</span><span>Sat</span></span><span class="v"><b>Sun-Sets at Revelry</b><span>Charleston, SC</span></span></li>
-        <li class="show" data-date="2026-12-31"><span class="d">31</span><span class="m"><span>Dec</span><span>Thu</span></span><span class="v"><b>New Year's Eve</b><span>Charlotte, NC</span></span></li>
+        <!-- Filled from Paul's Google Sheet (Date, Venue, City). Edit shows there, not here. -->
       </ul>
     </div>
   </section>
@@ -1125,14 +1121,37 @@ document.querySelectorAll('[data-copy]').forEach(function(btn){
 })();
 </script>
 <script>
-/* Upcoming shows: hide past dates, keep the next 4, hide the row if nothing is booked */
+/* Upcoming shows: read Paul's Google Sheet (Date | Venue | City), drop past dates, show the next 4.
+   If the sheet can't be read or nothing is booked, the row stays hidden. */
 (function(){
-  var list=document.getElementById('show-list'); if(!list) return;
-  var t=new Date(); var today=t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0');
-  var items=[].slice.call(list.querySelectorAll('.show')).sort(function(a,b){return a.dataset.date<b.dataset.date?-1:1});
-  var n=0;
-  items.forEach(function(li){ list.appendChild(li); if(li.dataset.date<today||n>=4){li.hidden=true}else{if(n===0)li.classList.add('next');n++} });
-  if(!n) document.getElementById('shows').hidden=true;
+  var SHEET='11jjaJsGFCaRYUjKjhfKrp-gYsNLzVrdt2FIpQGgHdvc';
+  var sec=document.getElementById('shows'), list=document.getElementById('show-list'); if(!sec||!list) return;
+  var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'], DAY=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  function csv(t){var rows=[],row=[],f='',q=false;for(var i=0;i<t.length;i++){var c=t[i];
+    if(q){if(c=='"'){if(t[i+1]=='"'){f+='"';i++}else q=false}else f+=c}
+    else if(c=='"')q=true;else if(c==','){row.push(f);f=''}else if(c=='\n'||c=='\r'){if(c=='\r'&&t[i+1]=='\n')i++;row.push(f);rows.push(row);row=[];f=''}else f+=c}
+    if(f||row.length){row.push(f);rows.push(row)}return rows}
+  var today=new Date();today.setHours(0,0,0,0);
+  function date(s){s=(s||'').trim();if(!s)return null;var m,d;
+    if(m=s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/))d=new Date(+m[1],m[2]-1,+m[3]);
+    else if(m=s.match(/^(\d{1,2})[\/.-](\d{1,2})(?:[\/.-](\d{2,4}))?$/)){var y=m[3]?(+m[3]<100?2000+ +m[3]:+m[3]):today.getFullYear();d=new Date(y,m[1]-1,+m[2]);if(!m[3]&&d<today-5184e6)d.setFullYear(y+1)}
+    else{var hasY=/\d{4}/.test(s);d=new Date(hasY?s:s+' '+today.getFullYear());if(isNaN(d))return null;if(!hasY&&d<today-5184e6)d.setFullYear(d.getFullYear()+1)}
+    d.setHours(0,0,0,0);return isNaN(d)?null:d}
+  function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e}
+  fetch('https://docs.google.com/spreadsheets/d/'+SHEET+'/gviz/tq?tqx=out:csv&headers=1').then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(t){
+    var rows=csv(t), head=(rows.shift()||[]).map(function(h){return h.trim().toLowerCase()});
+    var di=head.indexOf('date'),vi=head.indexOf('venue'),ci=head.indexOf('city');if(di<0){di=0;vi=1;ci=2}
+    var shows=rows.map(function(r){return{d:date(r[di]),v:(r[vi]||'').trim(),c:(r[ci]||'').trim()}})
+      .filter(function(x){return x.d&&x.v&&x.d>=today}).sort(function(a,b){return a.d-b.d}).slice(0,4);
+    if(!shows.length)return;
+    shows.forEach(function(x,i){
+      var li=el('li','show'+(i?'':' next')), m=el('span','m'), v=el('span','v');
+      li.appendChild(el('span','d',String(x.d.getDate()).padStart(2,'0')));
+      m.appendChild(el('span',null,MON[x.d.getMonth()]));m.appendChild(el('span',null,DAY[x.d.getDay()]));li.appendChild(m);
+      v.appendChild(el('b',null,x.v));if(x.c)v.appendChild(el('span',null,x.c));li.appendChild(v);
+      list.appendChild(li)});
+    sec.hidden=false;
+  }).catch(function(){});
 })();
 </script>
 </body>
