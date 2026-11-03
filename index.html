@@ -51,6 +51,7 @@ img{display:block;max-width:100%}
 
 .wrap{max-width:1320px;margin:0 auto;padding-left:var(--gutter);padding-right:var(--gutter-r)}
 h2{font-weight:900;font-size:clamp(52px,8vw,104px);line-height:.92;letter-spacing:.01em;margin:0;text-transform:uppercase;text-wrap:balance}
+@media (max-width:359px){h2{font-size:14vw}}
 .section{padding-block:clamp(72px,10vw,128px)}
 .strip{background:var(--ink);color:var(--on-gold);font-weight:800;letter-spacing:.16em;text-transform:uppercase;text-align:center;padding:7px 0;font-size:clamp(20px,2.2vw,30px)}
 
@@ -313,6 +314,13 @@ dialog.vbox::backdrop{background:rgba(6,6,6,.94)}
   .show-list{margin-inline:calc(-1 * var(--gutter)) calc(-1 * var(--gutter-r));padding-inline:var(--gutter) var(--gutter-r);scroll-padding-inline:var(--gutter)}
   .show{flex:0 0 74%;padding:12px 18px 12px 0;margin-right:18px}
   .show .d{font-size:46px}
+}
+@media (max-width:420px){
+  .show{flex-basis:86%;gap:10px}
+  .show .d{font-size:40px}
+  .show .m{font-size:13px}
+  .show .g b{font-size:21px}
+  .show .g span{font-size:15px}
 }
 
 /* Latest mix player */
@@ -604,7 +612,7 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
         <h2>Self&#8209;taught. Sought&#8209;after.</h2>
         <p>Sparkbox was never supposed to be a DJ. He was a producer, a film school kid in Charleston making beats and sneaking them into parties. Then his boy needed somebody to cover a gig. &ldquo;I don&rsquo;t DJ. I just produce.&rdquo; Didn&rsquo;t matter. A few days later the flyer hits his phone, and the name on it says Sparkbox. &ldquo;Wait, who&rsquo;s Sparkbox? I thought I was DJing.&rdquo; That was the name. That was the night. He&rsquo;s been on the decks ever since.</p>
         <p>He&rsquo;s been making things since sixth grade, behind a camera first and now running a creative agency. Same energy in the booth. Two genres that have no business together. Two artists nobody would put side by side. A scratch that turns the whole room around. If you&rsquo;re not noticing what he&rsquo;s doing, he&rsquo;s not doing his job.</p>
-        <p>That&rsquo;s taken him from Charleston&rsquo;s top clubs to rooms across the country and overseas, all the way to direct support for Diplo in Charlotte. Since 2017 he&rsquo;s run Sun&#8209;Sets on the Revelry rooftop. No genre rules. Just the vibe while the sun goes down.</p>
+        <p>That&rsquo;s taken him from Charleston&rsquo;s top clubs to rooms across the country and overseas, all the way to direct support for Diplo in Charlotte. Since 2017 he&rsquo;s curated Sun&#8209;Sets, his own party on the Revelry rooftop.</p>
         <p>The part he&rsquo;s proudest of? People telling him they started DJing because of him. Somebody put him on. Now he&rsquo;s putting others on.</p>
         <div class="yrs"><b>15+</b><span>Years on the decks</span></div>
         <div class="pull"><span></span><p>People leave saying they&rsquo;ve never heard a set like it.</p></div>
@@ -1145,8 +1153,11 @@ document.querySelectorAll('[data-copy]').forEach(function(btn){
   function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e}
   function get(u){return fetch(u).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(t){if(/^\s*</.test(t))throw 0;return t})}
   var base='https://docs.google.com/spreadsheets/d/'+SHEET;
-  get(base+'/export?format=csv').catch(function(){return get(base+'/gviz/tq?tqx=out:csv&headers=1')}).then(function(t){
-    var rows=csv(t), head=(rows.shift()||[]).map(function(h){return h.trim().toLowerCase()});
+  get(base+'/export?format=csv').catch(function(){return get(base+'/gviz/tq?tqx=out:csv')}).then(function(t){
+    var rows=csv(t);
+    // a title row (Date / Venue / City) is optional: only skip row 1 if it looks like one
+    var head=(rows[0]||[]).map(function(h){return h.trim().toLowerCase()});
+    if(head.some(function(h){return /^(date|venue|city|time|show|location)/.test(h)})||head.every(function(h){return !h}))rows.shift();else head=[];
     function col(n,f){var i=head.findIndex(function(h){return h.indexOf(n)===0});return i<0?f:i}
     var di=col('date',0),vi=col('venue',1),ci=col('city',2),ti=col('time',-1),last=null;
     var gigs=rows.map(function(r,n){var raw=(r[di]||'').trim(),d=raw?date(raw):last;if(raw&&d)last=d;
