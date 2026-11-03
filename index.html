@@ -51,6 +51,7 @@ img{display:block;max-width:100%}
 
 .wrap{max-width:1320px;margin:0 auto;padding-left:var(--gutter);padding-right:var(--gutter-r)}
 h2{font-weight:900;font-size:clamp(52px,8vw,104px);line-height:.92;letter-spacing:.01em;margin:0;text-transform:uppercase;text-wrap:balance}
+@media (max-width:359px){h2{font-size:14vw}}
 .section{padding-block:clamp(72px,10vw,128px)}
 .strip{background:var(--ink);color:var(--on-gold);font-weight:800;letter-spacing:.16em;text-transform:uppercase;text-align:center;padding:7px 0;font-size:clamp(20px,2.2vw,30px)}
 
@@ -313,6 +314,13 @@ dialog.vbox::backdrop{background:rgba(6,6,6,.94)}
   .show-list{margin-inline:calc(-1 * var(--gutter)) calc(-1 * var(--gutter-r));padding-inline:var(--gutter) var(--gutter-r);scroll-padding-inline:var(--gutter)}
   .show{flex:0 0 74%;padding:12px 18px 12px 0;margin-right:18px}
   .show .d{font-size:46px}
+}
+@media (max-width:420px){
+  .show{flex-basis:86%;gap:10px}
+  .show .d{font-size:40px}
+  .show .m{font-size:13px}
+  .show .g b{font-size:21px}
+  .show .g span{font-size:15px}
 }
 
 /* Latest mix player */
