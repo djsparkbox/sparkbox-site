@@ -1145,8 +1145,11 @@ document.querySelectorAll('[data-copy]').forEach(function(btn){
   function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e}
   function get(u){return fetch(u).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(t){if(/^\s*</.test(t))throw 0;return t})}
   var base='https://docs.google.com/spreadsheets/d/'+SHEET;
-  get(base+'/export?format=csv').catch(function(){return get(base+'/gviz/tq?tqx=out:csv&headers=1')}).then(function(t){
-    var rows=csv(t), head=(rows.shift()||[]).map(function(h){return h.trim().toLowerCase()});
+  get(base+'/export?format=csv').catch(function(){return get(base+'/gviz/tq?tqx=out:csv')}).then(function(t){
+    var rows=csv(t);
+    // a title row (Date / Venue / City) is optional: only skip row 1 if it looks like one
+    var head=(rows[0]||[]).map(function(h){return h.trim().toLowerCase()});
+    if(head.some(function(h){return /^(date|venue|city|time|show|location)/.test(h)})||head.every(function(h){return !h}))rows.shift();else head=[];
     function col(n,f){var i=head.findIndex(function(h){return h.indexOf(n)===0});return i<0?f:i}
     var di=col('date',0),vi=col('venue',1),ci=col('city',2),ti=col('time',-1),last=null;
     var gigs=rows.map(function(r,n){var raw=(r[di]||'').trim(),d=raw?date(raw):last;if(raw&&d)last=d;
